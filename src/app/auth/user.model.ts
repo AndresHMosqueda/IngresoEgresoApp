@@ -1,6 +1,6 @@
 export class User {
 
-    public nombre: string; 
+    public nombre: string;
     public email: string;
     public uid: string
 
@@ -10,10 +10,10 @@ export class User {
         this.uid = obj && obj.email || null;
     }
 
-    
+
 }
-        interface DataObj {
-            uid: string;
-            email: string;
-            nombre: string;
-        }
+interface DataObj {
+    uid: string;
+    email: string;
+    nombre: string;
+}

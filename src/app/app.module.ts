@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import {FormsModule} from '@angular/forms'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { AppRoutingModule } from './app-routing.module';
@@ -39,6 +39,7 @@ import { appReducers } from './app.reducer';
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    ReactiveFormsModule,
     AngularFireAuthModule,
     StoreModule.forRoot( appReducers ),
     StoreDevtoolsModule.instrument({
