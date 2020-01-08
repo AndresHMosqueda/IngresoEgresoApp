@@ -8,6 +8,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
+
+//Graficas
+import { ChartsModule } from 'ng2-charts';
+
+//Firebase
+
+
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -19,6 +26,7 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { environment } from 'src/environments/environment';
 import { appReducers } from './app.reducer';
+import { OrdenIngresoPipe } from './ingreso-egreso/orden-ingreso.pipe';
 
 @NgModule({
   declarations: [
@@ -31,7 +39,8 @@ import { appReducers } from './app.reducer';
     DetalleComponent,
     FooterComponent,
     SidebarComponent,
-    NavbarComponent
+    NavbarComponent,
+    OrdenIngresoPipe
   ],
   imports: [
     BrowserModule,
@@ -41,6 +50,7 @@ import { appReducers } from './app.reducer';
     AngularFirestoreModule,
     ReactiveFormsModule,
     AngularFireAuthModule,
+    ChartsModule,
     StoreModule.forRoot( appReducers ),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

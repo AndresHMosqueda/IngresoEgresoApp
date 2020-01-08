@@ -4,19 +4,25 @@ import { IngresoEgreso } from './ingreso-egreso.model';
 import { AuthService } from '../auth/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { SetItemsAction, UnSetItemsAction } from './ingreso-egreso.actions';
+import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2'
 
 @Injectable({
   providedIn: 'root'
 })
 export class IngresoEgresoService {
 
+  ingresoEgresoListenerSubscription: Subscription = new Subscription();
+  ingresoEgresoItemsSubscription: Subscription = new Subscription();
+
   constructor(private afDB: AngularFirestore,
     private authService: AuthService,
     private store: Store<AppState>) { }
 
   initIngresoEgresoListener() {
-    this.store.select('auth')
+    this.ingresoEgresoListenerSubscription = this.store.select('auth')
       .pipe(filter(auth => auth.user !== null))
       .subscribe(auth => {
         this.ingresoEgresoItems(auth.user.uid)
@@ -25,10 +31,30 @@ export class IngresoEgresoService {
   }
 
   private ingresoEgresoItems(uid: string) {
-    this.afDB.collection(`${uid}/ingresos-egresos/items`)
-      .valueChanges()
-      .subscribe(docData => console.log(docData)
+    this.ingresoEgresoItemsSubscription =  this.afDB.collection(`${uid}/ingresos-egresos/items`)
+      .snapshotChanges()
+      .pipe(
+        map( docData => {
+          return docData.map(doc => {
+              return {
+                uid: doc.payload.doc.id,
+                ...doc.payload.doc.data() as {}
+              };
+          });
+        })
       )
+      .subscribe( (coleccion: any[]) => {
+
+        this.store.dispatch(new SetItemsAction(coleccion) )
+        console.log(coleccion)
+      }
+      )
+  }
+
+  cancelarSubscriptions() {
+    this.ingresoEgresoListenerSubscription.unsubscribe();
+    this.ingresoEgresoItemsSubscription.unsubscribe();
+    this.store.dispatch(new UnSetItemsAction())
   }
 
   crearIngresoEgreso(ingresoEgreso: IngresoEgreso) {
@@ -36,6 +62,13 @@ export class IngresoEgresoService {
 
     return this.afDB.doc(`${user.uid}/ingresos-egresos`)
       .collection('items').add({ ...ingresoEgreso })
+  }
+
+  borrarIngresoEgreso(uid: string) {
+    const user = this.authService.getUsuario();
+
+    return this.afDB.doc(`${user.uid}/ingresos-egresos/items/${uid}`)
+      .delete();
   }
 
 

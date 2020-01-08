@@ -3,6 +3,7 @@ import { User } from './user.model';
 
 //Action
 export const SET_USER = "SET_USER";
+export const UNSET_USER = "UNSET_USER";
 
 //Action creator
 export class SetUserAction implements Action {
@@ -14,4 +15,11 @@ export class SetUserAction implements Action {
     constructor(public user: User) {}
 }
 
-export type acciones = SetUserAction;
+export class UnsetUserAction implements Action {
+    // readonly basicamente lo que hace es que no podamos modificar esa variable
+    //para asegurarnos que nunca sea modificada.
+    readonly type = UNSET_USER;
+
+}
+
+export type acciones = SetUserAction | UnsetUserAction;

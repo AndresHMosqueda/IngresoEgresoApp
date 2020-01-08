@@ -5,19 +5,22 @@ export interface AuthState {
     user: User
 }
 
- const initState : AuthState = {
-     user: null
- }
+const initState: AuthState = {
+    user: null
+}
 
- export function authReducer(state=initState, action:fromAuthActions.acciones): AuthState {
+export function authReducer(state = initState, action: fromAuthActions.acciones): AuthState {
 
-    switch(action.type) {
+    switch (action.type) {
         case fromAuthActions.SET_USER:
             return {
-                user: {...action.user}
+                user: { ...action.user }
             }
-
+        case fromAuthActions.UNSET_USER:
+            return {
+                user: null
+            }
         default:
-        return state
+            return state
     }
- }
+}
