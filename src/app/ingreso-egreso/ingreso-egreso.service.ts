@@ -27,26 +27,25 @@ export class IngresoEgresoService {
       .subscribe(auth => {
         this.ingresoEgresoItems(auth.user.uid)
       })
-
   }
 
   private ingresoEgresoItems(uid: string) {
-    this.ingresoEgresoItemsSubscription =  this.afDB.collection(`${uid}/ingresos-egresos/items`)
+    this.ingresoEgresoItemsSubscription = this.afDB.collection(`${uid}/ingresos-egresos/items`)
       .snapshotChanges()
       .pipe(
-        map( docData => {
+        map(docData => {
           return docData.map(doc => {
-              return {
-                uid: doc.payload.doc.id,
-                ...doc.payload.doc.data() as {}
-              };
+            return {
+              uid: doc.payload.doc.id,
+              ...doc.payload.doc.data() as {}
+            };
           });
         })
       )
-      .subscribe( (coleccion: any[]) => {
+      .subscribe((coleccion: any[]) => {
 
-        this.store.dispatch(new SetItemsAction(coleccion) )
-        console.log(coleccion)
+        this.store.dispatch(new SetItemsAction(coleccion))
+
       }
       )
   }

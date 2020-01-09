@@ -19,9 +19,9 @@
                       <td>{{item.description}}</td>
                       <td>{{item.monto | currency }}</td>
                       <td> 
-                      <span [ngClass]="{'text-success': item.tipo === 'ingreso',
+                      <span [ngClass]="{
+                      'text-success': item.tipo === 'ingreso',
                       'text-danger': item.tipo === 'egreso'
-                    
                     }">
                         {{item.tipo}}
                       </span>

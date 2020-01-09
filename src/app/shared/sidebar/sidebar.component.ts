@@ -17,13 +17,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
   nombre: string;
 
   constructor(private authService: AuthService,
-              private ingresoEgresoService:IngresoEgresoService,
+              private ingresoEgresoService: IngresoEgresoService,
               private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.store.select('auth').pipe(
-      filter(auth => auth.user !== null)
-    )
+    this.subscription = 
+    this.store.select('auth').pipe(filter(auth => auth.user !== null))
       .subscribe(auth => this.nombre = auth.user.nombre)
   }
 

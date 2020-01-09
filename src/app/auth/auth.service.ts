@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
+
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'
+
+import { Store } from '@ngrx/store';
+import { ActivarLoadingAction, DesactivarLoadingAction } from '../shared/ui.actions';
+
 import * as firebase from 'firebase';
 import { map } from 'rxjs/operators';
+
+import Swal from 'sweetalert2'
 import { User } from './user.model';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
-import { ActivarLoadingAction, DesactivarLoadingAction } from '../shared/ui.actions';
 import { SetUserAction, UnsetUserAction } from './auth.actions';
 import { Subscription } from 'rxjs';
 
@@ -46,7 +51,7 @@ export class AuthService {
 
   crearUsuario(nombre: string, email: string, password: string) {
 
-    this.store.dispatch(new ActivarLoadingAction())
+    this.store.dispatch(new ActivarLoadingAction() )
 
     this.afAuth.auth
       .createUserWithEmailAndPassword(email, password)
@@ -82,8 +87,8 @@ export class AuthService {
       .signInWithEmailAndPassword(email, password)
       .then(resp => {
 
-        this.router.navigate(['/'])
         this.store.dispatch(new DesactivarLoadingAction())
+        this.router.navigate(['/'])
 
       })
       .catch(erro => {

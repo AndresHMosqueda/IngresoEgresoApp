@@ -1,56 +1,35 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
+// Modulos
+import { AppRoutingModule } from './app-routing.module';
+
+// NGRX
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import { appReducers } from './app.reducer';
+
+// Firebase
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
-import { AppRoutingModule } from './app-routing.module';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { StoreModule } from '@ngrx/store';
-import { AppComponent } from './app.component';
 
-//Graficas
-import { ChartsModule } from 'ng2-charts';
+//Modulos personalizados
+import { AuthModule } from './auth/auth.module';
 
-//Firebase
-
-
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { IngresoEgresoComponent } from './ingreso-egreso/ingreso-egreso.component';
-import { EstadisticaComponent } from './ingreso-egreso/estadistica/estadistica.component';
-import { DetalleComponent } from './ingreso-egreso/detalle/detalle.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-import { NavbarComponent } from './shared/navbar/navbar.component';
 import { environment } from 'src/environments/environment';
-import { appReducers } from './app.reducer';
-import { OrdenIngresoPipe } from './ingreso-egreso/orden-ingreso.pipe';
+
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    DashboardComponent,
-    IngresoEgresoComponent,
-    EstadisticaComponent,
-    DetalleComponent,
-    FooterComponent,
-    SidebarComponent,
-    NavbarComponent,
-    OrdenIngresoPipe
+    AppComponent
   ],
   imports: [
     BrowserModule,
+    AuthModule,
     AppRoutingModule,
-    FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
-    ReactiveFormsModule,
-    AngularFireAuthModule,
-    ChartsModule,
     StoreModule.forRoot( appReducers ),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
